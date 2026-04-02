@@ -62,6 +62,7 @@ services:
       - ./certs/var/log/letsencrypt:/var/log/letsencrypt
     environment:
       - DOMAIN=${DOMAIN}
+      - HTTP_PORT=${HTTP_PORT}
     ports:
       - ${HTTP_PORT}:${HTTP_PORT}
     entrypoint: |
@@ -70,7 +71,7 @@ services:
           echo 'Certificate already exists for $DOMAIN';
           exit 0;
         fi;
-        certbot certonly --standalone --http-01-port $HTTP_PORT -d $DOMAIN --agree-tos --non-interactive;
+        certbot certonly --standalone --http-01-port $HTTP_PORT -d $DOMAIN --register-unsafely-without-email --agree-tos --non-interactive;
       "
 
 # Shared volume for Let's Encrypt certificate renewal with a webroot
